@@ -1,0 +1,156 @@
+
+.nav-item a{
+  color: #7f7f8b;
+  font-size: 17px;
+}
+
+.nav-item a:hover{
+  color: #555353;
+  transition: 0.5s;
+}
+
+/* FACT START */
+.counter{
+  height: 100%;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.counter i{
+  font-size: 60px;
+  margin-bottom: 25px;
+}
+
+.counter h4{
+  color: var(--bs-primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.counter h1{
+  margin-bottom: 0;
+}
+/* FACT END */
+
+
+/* MENU START */
+#menu_section .nav-item a.active{
+  background-color: #ffc107 !important;
+}
+
+#menu_section .nav-item a.active span{
+  color: var(--bs-white) !important;
+}
+
+.drink-item{
+  transition: 0.5s;
+  border-radius: 10px;
+}
+.drink-item:hover{
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+}
+
+#menu_section .drink-item a:hover{
+  background-color: var(--bs-secondary) !important;
+  .view_more{
+    color: white;
+    transition: 0.5s;
+  }
+  .fa-eye{
+    transition: 0.5s;
+  }
+}
+
+
+/* Drink Imange */
+.drink-img{
+  width: 90%; 
+  height: auto;
+  transition: 0.9s;
+}
+
+.drink-img:hover{
+  transform: scale(1.1);
+}
+
+.drink-name{
+  color: var(--bs-dark);
+}
+
+.drink-name-div{
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.add-to-cart-bg, .add-to-cart-text{
+  transition: 0.5s;
+}
+
+.add-to-cart-text{
+  color: var(--bs-primary);
+}
+
+.add-to-cart-text:hover{
+  background-color: var(--bs-secondary);
+  color: white;
+  transition: 0.5s;
+}
+/* MENU END */
+
+
+/* Testimonial */
+.testimonial .owl-nav .owl-prev{
+  position: absolute;
+  top: -58px;
+  right: 0;
+  color: var(--bs-primary);
+  padding: 5px 25px;
+  border: 1px solid var(--bs-secondary);
+  border-radius: 20px;
+  transition: 0.5s;
+}
+
+.testimonial .owl-nav .owl-prev:hover{
+  background: var(--bs-secondary);
+  color: var(--bs-white);
+}
+
+.testimonial .owl-nav .owl-next{
+  position: absolute;
+  top: -58px;
+  right: 88px;
+  color: var(--bs-primary);
+  padding: 5px 25px;
+  border: 1px solid var(--bs-secondary);
+  border-radius: 20px;
+  transition: 0.5s;
+}
+
+.testimonial .owl-nav .owl-next:hover{
+  background: var(--bs-secondary);
+  color: var(--bs-white);
+}
+/* Testimonial End */
+
+
+/* ORDER.HTML */
+.nav-item a.active{
+  background-color: #ffc107 !important;
+  color: white;
+}
+/* ORDER.HTML END */
+
+
+/* Back to Top */
+.back-to-top{
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  display: flex;
+  width: 45px;
+  height: 45px;
+  align-items: center;
+  justify-content: center;
+  transition: 0.5s;
+  z-index: 999;
+}

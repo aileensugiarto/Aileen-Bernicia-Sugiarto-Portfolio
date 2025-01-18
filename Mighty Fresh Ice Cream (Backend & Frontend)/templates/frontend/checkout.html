@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+  <!-- NavBar Start -->
+  {% include 'frontend/navbar.html' %}
+
+
+  <!-- Navbar End -->
+
+
+  <!-- Checkout Page Start -->
+  <div class="container-fluid py-5">
+    <div class="container py-5">
+      <h1 class="mb-4">Billing details</h1>
+      <form action="/process_checkout" method="POST">
+        <div class="row g-5">
+          <div class="col-md-12 col-lg-6 col-xl-7">
+            <div class="row">
+              <input type="hidden" name="form_id_customer" value="{{session['id_customer']}}">
+              <input type="hidden" name="form_total_price" value="{{total_price}}">
+              <div class="form-item">
+                <select id="province" name="province" class="form-control" required>
+                  <option value="">Select Province</option>
+                  {%for province in provinces%}
+                  <option value="{{province['province_id']}}">{{province['province']}}</option>
+                  {%endfor%}
+                </select>
+              </div>
+              <div class="form-item mt-3">
+                <select id="city" name="city" class="form-control" required>
+                  <option value="">Select City</option>
+                </select>
+              </div>
+              <div class="form-item mt-3">
+                <textarea name="form_information" class="form-control" spellcheck="false" cols="30" rows="11"
+                  required="" placeholder="Order Notes"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6 col-xl-5">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Products</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in data_cart %}
+                  <input type="hidden" name="form_id_cart[]" value="{{row[0]}}">
+                  <input type="hidden" name="form_id_product[]" value="{{row[2]}}">
+                  <input type="hidden" name="form_qty[]" value="{{row[1]}}">
+                  <input type="hidden" name="form_price[]" value="{{row[5]}}">
+                  <tr>
+                    <td scope="row">
+                      <div class="d-flex align-items-center mt-2">
+                        <img src="{{url_for('static', filename='uploads/PNG/' + row[8] )}}"
+                          class="img-fluid rounded-circle" style="width: 85px; height: 150px;" alt="">
+                      </div>
+                    </td>
+                    <td class="py-5">{{row[4]}}</td>
+                    <td class="py-5">{{row[5]}}</td>
+                    <td class="py-5">{{row[1]}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-item mt-3">
+              <label>Total Price:</label>
+              <input type="text" name="" id="" class="form-control" value="{{total_price}}" readonly>
+            </div>
+
+            <div class="form-item mt-3">
+              <label>Select Courier:</label>
+              <select id="courier" name="courier" class="form-control" required>
+                <option value="">Select Courier</option>
+                <option value="jne">JNE</option>
+                <option value="pos">POS</option>
+                <option value="tiki">TIKI</option>
+              </select>
+            </div>
+
+            <div class="form-item mt-3">
+              <button type="button" id="calculate_shipping"
+                class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">
+                Calculate Shipping
+              </button>
+            </div>
+
+            <div class="form-item mt-3">
+              <label for="shipping_cost">Shipping Cost:</label>
+              <input type="text" name="shipping_cost" id="shipping_cost" class="form-control" readonly>
+            </div>
+
+            <div class="form-item mt-3">
+              <label for="final_total_price_display">Final Total Price:</label>
+              <input type="text" name="final_total_price_display" id="final_total_price_display" class="form-control"
+                value="{{total_price}}" readonly>
+            </div>
+
+            <input type="hidden" name="final_total_price" id="final_total_price" value="{{total_price}}">
+
+            <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+              <input type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary"
+                value="Place Order">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Checkout Page End -->
+
+
+  <!-- Footer -->
+  <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+    <div class="container py-5">
+      <div class="row g-5">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="footer-item">
+            <h4 class="text-light mb-3">Why People Like Us!</h4>
+            <p class="mb-4">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <a class="btn border-secondary py-2 px-4 rounded-pill text-primary" href="#">Read More</a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-item">
+            <h4 class="text-light mb-3">Contact</h4>
+            <p>Address: Lorem Ipsum has been the industry's standard dummy</p>
+            <p>Email: aileen@gmail.com</p>
+            <p>Phone 081 1234 1234</p>
+            <p>Payment Accepted</p>
+            <img src="asset/img/payment.png" class="img-fluid">
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="d-flex justify-content-end pt-3">
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-facebook"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-instagram"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top">
+    <i class="fa fa-arrow-up"></i>
+  </a>
+
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+  <script>
+    (function ($) {
+      "use strict";
+      $(".testimonial-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 2000,
+        center: false,
+        dots: true,
+        loop: true,
+        margin: 25,
+        nav: true,
+        navText: [
+          '<i class="fas fa-arrow-left"></i>',
+          '<i class="fas fa-arrow-right"></i>'
+        ],
+        responsiveClass: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          576: {
+            items: 1
+          },
+          768: {
+            items: 1
+          },
+          992: {
+            items: 2
+          },
+          1200: {
+            items: 2
+          }
+        }
+      });
+
+
+    })(jQuery);
+  </script>
+  <script>
+    document.getElementById('province').addEventListener('change', function () {
+      var province_id = this.value;
+      // alert(province_id);
+      // console.log(province_id);
+      fetch('/get_cities/' + province_id)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          var citySelect = document.getElementById('city');
+          citySelect.innerHTML = '<option value=:"">Select City</option>';
+          data.forEach(function (city) {
+            var option = document.createElement('option');
+            option.value = city.city_id;
+            option.text = city.city_name;
+            citySelect.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Error fetching cities:', error));
+    });
+
+    document.getElementById('calculate_shipping').addEventListener('click', function() {
+      var origin = '{{ORIGIN_CITY_ID}}';
+      var destination = document.getElementById('city').value;
+      var weight = 1000;
+      var courier = document.getElementById('courier').value;
+      var totalPrice = parseFloat(document.getElementById('final_total_price').value); // Get the intial total price
+      fetch('/get_shipping_cost', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams ({
+          'origin': origin,
+          'destination': destination,
+          'weight': weight,
+          'courier': courier
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.length > 0 && data[0].costs.length > 0) {
+          var cost = data[0].costs[0].cost[0].value;
+          document.getElementById('shipping_cost').value = cost;
+          var finalTotal = totalPrice + cost;
+          document.getElementById('final_total_price_display').value = finalTotal;
+        }
+        else {
+          document.getElementById('shipping_cost').value = 'Not available';
+        }
+      })
+      .catch(error => console.error('Error fetching shipping cost:', error));
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color: white;">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kumpulan">
+      <span class="fa fa-bars text-black"></span>
+    </button>
+
+    <div class="collapse navbar-collapse text-light" id="kumpulan">
+      <!-- <span class="text-dark display-6">Official MFIC Website</span> -->
+      <img src="../../static/uploads/mighty-logo.jpeg" width="200" style="margin-top: 10px; margin-bottom: 10px;">
+
+      <ul class="navbar-nav mx-auto"> 
+        <!-- About Us -->
+        <li class="nav-item" style="margin-right: 15px;">
+          <a href="#about_us_section" class="nav-link">About Us</a>
+        </li>
+        <!-- Menu -->
+        <li class="nav-item" style="margin-right: 15px;">
+          <a href="#menu_section" class="nav-link">Menu</a>
+        </li>
+        <!-- Location -->
+        <li class="nav-item">
+          <a href="#location_section" class="nav-link">Location</a>
+        </li>
+        <!-- Testimonial -->
+        <li class="nav-item">
+          <a href="#testimonial_section" class="nav-link">Testimonial</a>
+        </li>
+        <li class="nav-item">
+          <a href="/order/{{session['id_customer']}}" class="nav-link">Order Status</a>
+        </li>
+      </ul>
+
+      <div class="d-flex m-3 me-0">
+        <button type="button"
+          class="btn btn-search border border-secondary btn-md-square rounded-circle bg-white me-4">
+          <i class="fas fa-search text-primary"></i>
+        </button>
+        <a href="/cart/{{session['id_customer']}}" class="position-relative me-4 my-auto">
+          <i class="fa fa-shopping-bag fa-2x"></i>
+          <!-- <span
+            class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center bg-warning text-dark px-1"
+            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+            4
+          </span> -->
+        </a>
+        {% if session.login %}
+        <a href="/profile" class="my-auto me-3">
+          <i class="fas fa-users fa-2x"></i>
+        </a>
+        <a href="/logout" class="my-auto"><span class="fs-4">Logout</span></a>
+        {% else %}
+        <a href="/login" class="my-auto">
+          <i class="fas fa-user fa-2x"></i>
+        </a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</nav>
+<!-- NAVBAR END -->

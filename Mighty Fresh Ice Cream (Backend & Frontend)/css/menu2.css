@@ -1,0 +1,39 @@
+.drink-background{
+  width: 100%
+}
+/* Drink Imange */
+.drink-img{
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: auto;
+  transition: 0.9s;
+}
+
+.drink-img:hover{
+  transform: scale(1.2);
+}
+
+.drink-name{
+  color: var(--bs-dark);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.drink-name-div{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.add-to-cart-bg, .add-to-cart-text{
+  transition: 0.5s;
+}
+
+.add-to-cart-button:hover{
+  .add-to-cart-bg{
+    background-color: var(--bs-secondary);
+  }
+  .add-to-cart-text{
+    color: white;
+  }
+}

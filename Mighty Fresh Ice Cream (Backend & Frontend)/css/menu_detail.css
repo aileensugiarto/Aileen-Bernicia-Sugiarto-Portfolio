@@ -1,0 +1,71 @@
+
+.ice-level-button {
+  border-color: #ff6200;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  margin-right: 40px;
+}
+
+.ice-level-button.clicked{
+  transition: 0.5s;
+  background-color: #ff6200;
+  color: white;
+  cursor: pointer;
+}
+
+
+.sugar-level-button {
+  border-color: #ff6200;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  margin-right: 40px;
+}
+
+.sugar-level-button.clicked{
+  transition: 0.5s;
+  background-color: #ff6200;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+
+/* Drink Background */
+.drink-background{
+  width: 95%;  
+  margin-top: 160px;
+}
+/* Drink Imange */
+.drink-img{
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 90%; 
+  height: auto;
+  margin-left: 50px;
+}
+
+
+.add-to-cart-text{
+  color: var(--bs-primary);
+}
+
+.add-to-cart:hover{
+  background-color: var(--bs-secondary);
+  .add-to-cart-text{
+    color: white;
+  }
+}

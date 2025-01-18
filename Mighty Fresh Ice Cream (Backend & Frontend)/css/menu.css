@@ -1,0 +1,65 @@
+/* Navbar */
+.nav-item a{
+  color: #7f7f8b;
+  font-size: 18px;
+}
+
+.nav-item a:hover{
+  color: #555353;
+  transition: 0.5s;
+}
+
+
+/* MENU START */
+#menu_section .nav-item a.active{
+  background-color: #ffc107 !important;
+}
+
+#menu_section .nav-item a.active span{
+  color: var(--bs-white) !important;
+}
+
+.drink-item{
+  transition: 0.5s;
+  border-radius: 10px;
+}
+.drink-item:hover{
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+}
+
+#menu_section .drink-item a:hover{
+  background-color: var(--bs-secondary) !important;
+  .view_more{
+    color: white;
+    transition: 0.5s;
+  }
+  .fa-eye{
+    transition: 0.5s;
+  }
+}
+
+/* .drink-item .drink-img img{
+  transition: 0.5s;
+}
+
+.drink-item .drink-img img:hover{
+  transform: scale(1.1);
+  .best-seller{
+    transform: scale(1.1);
+  }
+  
+} */
+
+/* MENU END */
+
+
+.add-to-cart-text{
+  color: var(--bs-primary);
+}
+
+.add-to-cart:hover{
+  background-color: var(--bs-secondary);
+  .add-to-cart-text{
+    color: white;
+  }
+}

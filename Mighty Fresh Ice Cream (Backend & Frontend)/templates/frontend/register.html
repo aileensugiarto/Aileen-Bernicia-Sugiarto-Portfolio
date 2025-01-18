@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+
+  <!-- NavBar Start -->
+  {% include 'frontend/navbar.html' %}
+  <!-- Navbar End -->
+
+
+  <div class="container-fluid contact py-5">
+    <div class="container py-5">
+      <div class="p-5 bg-light rounded">
+        <div class="row g-4">
+          <div class="col-12">
+            <div class="text-center mx-auto" style="max-width: 700px;">
+              <!-- Bikin Popup -->
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{category}} alert-dismissible show fade">
+                <div class="alert-body">
+                  {{message}}
+                </div>
+              </div>
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+              <h1 class="text-primary">Register</h1>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <form method="POST" action="/register" class="">
+              <div class="text-center mx-auto" style="max-width: 700px;">
+                <!-- Username -->
+                <input type="text" name="form_username" class="w-100 form-control border-0 py-3 mb-4"
+                  placeholder="Enter Username" required>
+
+                <!-- Password -->
+                <input type="password" name="form_password" class="w-100 form-control border-0 py-3 mb-4"
+                  placeholder="Enter Password" required>
+
+                  <!-- Name -->
+                <input type="text" name="form_name" class="w-100 form-control border-0 py-3 mb-4"
+                  placeholder="Enter Name" required>
+
+                <!-- Age -->
+                <input type="text" name="form_age" class="w-100 form-control border-0 py-3 mb-4"
+                  placeholder="Enter Age" required>
+
+                <!-- Phone Number -->
+                <input type="text" name="form_telp" class="w-100 form-control border-0 py-3 mb-4"
+                  placeholder="Enter Phone Number" required>
+
+                <!-- Address -->
+                <textarea name="form_address" class="w-100 form-control border-0 py-3 mb-4"
+                  placeholder="Enter Address" required></textarea>
+
+                  <!-- Email -->
+                <input type="email" name="form_email" class="w-100 form-control border-0 py-3 mb-4"
+                  placeholder="Enter Email" required>
+
+                <!-- Register Button -->
+                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mb-4"
+                  type="submit" required>Register</button>
+
+                <!-- Login Button -->
+                <a href="/login" class="w-100 btn form-control border-secondary py-3 bg-primary text-white">Login</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+    <div class="container py-5">
+      <div class="row g-5">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="footer-item">
+            <h4 class="text-light mb-3">Why People Like Us!</h4>
+            <p class="mb-4">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <a class="btn border-secondary py-2 px-4 rounded-pill text-primary" href="#">Read More</a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-item">
+            <h4 class="text-light mb-3">Contact</h4>
+            <p>Address: Lorem Ipsum has been the industry's standard dummy</p>
+            <p>Email: aileen@gmail.com</p>
+            <p>Phone 081 1234 1234</p>
+            <p>Payment Accepted</p>
+            <img src="asset/img/payment.png" class="img-fluid">
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="d-flex justify-content-end pt-3">
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-facebook"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-instagram"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top">
+    <i class="fa fa-arrow-up"></i>
+  </a>
+
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+  <script>
+    (function ($) {
+      "use strict";
+      $(".testimonial-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 2000,
+        center: false,
+        dots: true,
+        loop: true,
+        margin: 25,
+        nav: true,
+        navText: [
+          '<i class="fas fa-arrow-left"></i>',
+          '<i class="fas fa-arrow-right"></i>'
+        ],
+        responsiveClass: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          576: {
+            items: 1
+          },
+          768: {
+            items: 1
+          },
+          992: {
+            items: 2
+          },
+          1200: {
+            items: 2
+          }
+        }
+      });
+
+
+    })(jQuery);
+  </script>
+
+
+</body>
+
+</html>

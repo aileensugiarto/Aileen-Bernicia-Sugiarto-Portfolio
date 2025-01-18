@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+
+  <script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-JxQrX9gXfnlck4zD"></script>
+
+</head>
+
+<body>
+  <!-- NavBar Start -->
+  {% include 'frontend/navbar.html' %}
+
+
+  <!-- Navbar End -->
+
+
+  <!-- Checkout Page Start -->
+  <div class="container-fluid py-5">
+    <div class="container py-5">
+      <h1 class="mb-4">Order Status</h1>
+      <div class="row g-5">
+
+        <div class="col-md-12 col-lg-12 col-xl-12">
+          <div class="row">
+            <ul class="nav nav-pills d-inline-flex text-center mb-5">
+
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#billing-tab"
+                  role="tab" aria-controls="billing" aria-selected="true">
+                  <span class="billing-tab" style="width: 130px;">Billing</span>
+                </a>
+              </li>
+
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#packaging-tab" role="tab"
+                  aria-controls="billing" aria-selected="true">
+                  <span class="packaging-tab" style="width: 160px;">Packaging</span>
+                </a>
+              </li>
+
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#delivery-tab">
+                  <span class="delivery-tab" style="width: 130px;">Delivery</span>
+                </a>
+              </li>
+
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#sent-tab">
+                  <span class="sent-tab" style="width: 130px;">Sent</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-content">
+
+            <div id="billing-tab" class="tab-pane fade show p-0 active" role="tab" aria-controls="billing"
+              aria-selected="true">
+              <!-- Row Start -->
+              <div class="row g-4">
+                <!-- Col Start -->
+                <div class="col-lg-12">
+                  <!-- Row Start -->
+                  <div class="row g-4">
+
+                    <h1 style="color: #313947;">Billing</h1>
+
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Information</th>
+                            <th scope="col">Transaction Date</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Upload Bukti Bayar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_billing %}
+                          <tr>
+                            <td class="py-5">{{row[0]}}</td>
+                            <td class="py-5">{{row[1]}}</td>
+                            <td class="py-5">{{row[2]}}</td>
+                            <td class="py-5">{{row[3]}}</td>
+                            <td class="py-5">
+                              <form id="payment-form" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="form_id_transaction" value="{{row[4]}}">
+                                <input type="hidden" name="form_total_price" value="{{row[2]}}">
+                                <!-- <input type="file" name="form_image" id="" class="form-control"> -->
+                                <!-- <input type="submit" value="Upload" class="btn btn-primary"></input> -->
+                                <button id="pay-button" type="button" class="btn btn-primary text-white">Bayar</button>
+                              </form>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                  <!-- Row End -->
+                </div>
+                <!-- Col End -->
+              </div>
+              <!-- Row End -->
+            </div>
+
+            <div id="packaging-tab" class="tab-pane fade show p-0">
+              <!-- Row Start -->
+              <div class="row g-4">
+                <!-- Col Start -->
+                <div class="col-lg-12">
+                  <!-- Row Start -->
+                  <div class="row g-4">
+
+                    <h1 style="color: #313947;">Packing</h1>
+
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Information</th>
+                            <th scope="col">Transaction Date</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_packaging %}
+                          <tr>
+                            <td class="py-5">{{row[0]}}</td>
+                            <td class="py-5">{{row[1]}}</td>
+                            <td class="py-5">{{row[2]}}</td>
+                            <td class="py-5">{{row[3]}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                  <!-- Row End -->
+                </div>
+                <!-- Col End -->
+              </div>
+              <!-- Row End -->
+            </div>
+
+            <div id="delivery-tab" class="tab-pane fade show p-0">
+              <!-- Row Start -->
+              <div class="row g-4">
+                <!-- Col Start -->
+                <div class="col-lg-12">
+                  <!-- Row Start -->
+                  <div class="row g-4">
+
+                    <h1 style="color: #313947;">Delivery</h1>
+
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Information</th>
+                            <th scope="col">Transaction Date</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">Status</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_delivery %}
+                          <tr>
+                            <td class="py-5">{{row[0]}}</td>
+                            <td class="py-5">{{row[1]}}</td>
+                            <td class="py-5">{{row[2]}}</td>
+                            <td class="py-5">{{row[3]}}</td>
+                            <td class="py-5">
+                              <form action="/sent" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="form_id_transaction" value="{{row[4]}}">
+                                <input type="submit" value="Sent" class="btn btn-info"></input>
+                              </form>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                  <!-- Row End -->
+                </div>
+                <!-- Col End -->
+              </div>
+              <!-- Row End -->
+            </div>
+
+            <div id="sent-tab" class="tab-pane fade show p-0">
+              <!-- Row Start -->
+              <div class="row g-4">
+                <!-- Col Start -->
+                <div class="col-lg-12">
+                  <!-- Row Start -->
+                  <div class="row g-4">
+
+                    <h1 style="color: #313947;">Sent</h1>
+
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Information</th>
+                            <th scope="col">Transaction Date</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_sent %}
+                          <tr>
+                            <td class="py-5">{{row[0]}}</td>
+                            <td class="py-5">{{row[1]}}</td>
+                            <td class="py-5">{{row[2]}}</td>
+                            <td class="py-5">{{row[3]}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                  <!-- Row End -->
+                </div>
+                <!-- Col End -->
+              </div>
+              <!-- Row End -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Checkout Page End -->
+
+
+  <!-- Footer -->
+  <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+    <div class="container py-5">
+      <div class="row g-5">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="footer-item">
+            <h4 class="text-light mb-3">Why People Like Us!</h4>
+            <p class="mb-4">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <a class="btn border-secondary py-2 px-4 rounded-pill text-primary" href="#">Read More</a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-item">
+            <h4 class="text-light mb-3">Contact</h4>
+            <p>Address: Lorem Ipsum has been the industry's standard dummy</p>
+            <p>Email: aileen@gmail.com</p>
+            <p>Phone 081 1234 1234</p>
+            <p>Payment Accepted</p>
+            <img src="asset/img/payment.png" class="img-fluid">
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="d-flex justify-content-end pt-3">
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-facebook"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-instagram"></i></a>
+            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top">
+    <i class="fa fa-arrow-up"></i>
+  </a>
+
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+  <script>
+    (function ($) {
+      "use strict";
+      $(".testimonial-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 2000,
+        center: false,
+        dots: true,
+        loop: true,
+        margin: 25,
+        nav: true,
+        navText: [
+          '<i class="fas fa-arrow-left"></i>',
+          '<i class="fas fa-arrow-right"></i>'
+        ],
+        responsiveClass: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          576: {
+            items: 1
+          },
+          768: {
+            items: 1
+          },
+          992: {
+            items: 2
+          },
+          1200: {
+            items: 2
+          }
+        }
+      });
+
+
+    })(jQuery);
+  </script>
+
+  <script>
+    document.getElementById('pay-button').onclick = function() {
+      var form = document.getElementById('payment-form');
+      var formData = new FormData(form);
+
+      fetch('/billing', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          console.error('Error:', data.error);
+          alert('Payment failed:' + data.error);
+          return;
+        }
+        snap.pay(data.token, {
+          onSuccess: function (result) {
+            alert("Payment Successful");
+            console.log(result);
+            fetch('/save_payment_info', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                transaction_id: data.transaction_id,
+                total_price: data.total_price,
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.error) {
+                console.error('Errorrr', data.error);
+              } else {
+                console.log('Payment info saved successfully');
+                window.location.reload();
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            })
+          },
+          onPending: function(result) {
+            alert("Waiting for your payment")
+            console.log(result);
+          },
+          onError: function(result) {
+            alert("Payment Failed")
+            console.log(result);
+          },
+          onClose: function(result) {
+            alert("You closed the popup without finishing the payment")
+            console.log(result);
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error', error);
+      })
+    }
+  </script>
+
+</body>
+
+</html>
