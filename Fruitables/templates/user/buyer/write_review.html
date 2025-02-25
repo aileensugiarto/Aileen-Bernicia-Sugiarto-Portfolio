@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write Review</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body style="background-color: #F1F1F1;">
+  <section class="write-review p-5">
+    <div class="container p-5"
+      style="background-color: white; border-radius: 10px; box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.1);">
+      <div class="mb-4">
+        <span style="font-size: 30px; color: black;">Write a Review</span>
+      </div>
+      <form action="" method="POST">
+        <div class="form-group mb-4">
+          <div class="mb-2">
+            <label style="color: #34395E;">Review</label>
+          </div>
+          <textarea class="form-control" id="review_text" name="review_text" rows="3" required
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF;"></textarea>
+        </div>
+
+        <div class="form-group mb-4">
+          <div class="mb-2">
+            <label for="rating" style="color: #34395E;">Rating (1-5)</label>
+          </div>
+          <input type="number" class="form-control" id="rating" name="rating" min="1" max="5" required
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF;">
+        </div>
+        <button type="submit" class="btn submit-btn">SUBMIT REVIEW</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+  <script>
+    function validateRating() {
+      let rating = document.getElementById("rating").value;
+      if (rating < 1 || rating > 5) {
+        alert("Rating must be between 1 and 5.");
+        return false; // Prevent form submission
+      }
+      return true;
+    }
+  </script>
+</body>
+
+</html>

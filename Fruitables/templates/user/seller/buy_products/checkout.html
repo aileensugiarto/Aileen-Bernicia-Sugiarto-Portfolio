@@ -1,0 +1,210 @@
+{% include 'user/seller/layout/header.html' %}
+
+{% include 'user/seller/layout/sidebar.html' %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Billing Details</h1>
+    </div>
+
+    <div class="container-fluid"
+      style="width: 900px; display: flex; justify-content: center; align-items: center; margin: 0 auto;">
+      <div class="container">
+        <form action="/process_checkout_seller" method="POST">
+          <div class="row g-5">
+
+            <div class="col-md-12 col-lg-6 col-xl-6">
+              <div class="row">
+                <input type="hidden" name="form_id_user" value="{{ session['id_user'] }}">
+                <input type="hidden" name="form_total_price" value="{{ total_price }}">
+
+                <div class="row" style="margin: 0; padding: 0;">
+                  <div class="col-12" style="padding: 0;">
+                    <!-- Province -->
+                    <div class="form-item mb-3">
+                      <select id="province" name="province" class="form-control" required
+                        style="width: 100%; box-sizing: border-box;">
+                        <option value="">Select Province</option>
+                        {% for province in provinces %}
+                        <option value="{{ province['province_id'] }}">{{ province['province'] }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12" style="padding: 0;">
+                    <!-- Cities -->
+                    <div class="form-item mb-3">
+                      <select id="city" name="city" class="form-control" required
+                        style="width: 100%; box-sizing: border-box;">
+                        <option value="">Select City</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin: 0; padding: 0;">
+                  <!-- Order Notes -->
+                  <div class="col-12" style="padding: 0;">
+                    <div class="form-item mb-3">
+                      <textarea name="form_information" class="form-control order-notes" spellcheck="false" rows=""
+                        placeholder="Order Notes" required style="width: 100%; box-sizing: border-box;"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-12" style="padding: 0;">
+                    <!-- Address -->
+                    <div class="form-item mb-3">
+                      <textarea name="address" class="form-control order-notes" spellcheck="false" rows="5"
+                        placeholder="Address" required
+                        style="width: 100%; box-sizing: border-box;">{{ user_address }}</textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delivery Type -->
+              <div class="form-item mt-2">
+                <div class="mb-3">
+                  <label for="delivery_type" style="color: black; font-size: 20px;">Delivery Type</label>
+                </div>
+                <div class="mb-3">
+                  <label style="color: #414141; font-size: 15px; font-weight: bold;">
+                    <input type="radio" name="delivery_type" value="same_day" id="same_day" required> &nbsp;
+                    Same-Day Delivery (Rp 20,000)
+                  </label>
+                </div>
+
+                <div class="mb-3">
+                  <label style="color: #414141; font-size: 15px; font-weight: bold;">
+                    <input type="radio" name="delivery_type" value="one_day" id="one_day" checked> &nbsp;
+                    One-Day Delivery (Free)
+                  </label>
+                </div>
+
+                <!-- Delivery Charge below the radio buttons -->
+                <div class="form-item mt-3">
+                  <input type="text" id="delivery_charge" class="form-control w-75" value="Rp 0" readonly>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 col-lg-6 col-xl-6">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Products</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in data_cart %}
+                    <input type="hidden" name="form_id_cart[]" value="{{ row[0] }}">
+                    <input type="hidden" name="form_id_product[]" value="{{ row[2] }}">
+                    <input type="hidden" name="form_price[]" value="{{ row[5] }}">
+                    <input type="hidden" name="form_qty[]" value="{{ row[1] }}">
+                    <tr>
+                      <td scope="row">
+                        <div class="d-flex align-items-center mt-2">
+                          <img src="{{ url_for('static', filename='uploads/' + row[8]) }}" class="img-fluid"
+                            style="width: 80px;">
+                        </div>
+                      </td>
+                      <td class="py-5 product-name">{{ row[4] }}</td>
+                      <td class="py-5 product-price">Rp {{ row[5] }}</td>
+                      <td class="py-5 qty">{{ row[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Subtotal -->
+              <div class="form-item mt-2" style="display: flex; align-items: center; gap: 10px;">
+                <label style="color: black; font-size: 14px;">Subtotal</label>
+                <input type="text" class="form-control" value="Rp {{ total_price }}" readonly
+                  style="background-color: white; color:black; border: 0; text-align: right; font-size: 14px;">
+              </div>
+
+              <!-- Total Price -->
+              <div class="form-item"
+                style="display: flex; align-items: center; gap: 10px; font-size: 17px; white-space: nowrap;">
+                <label for="final_total_price_display" style="color: black; font-weight: bold; margin-right: auto;">
+                  Total Price
+                </label>
+                <input type="text" name="final_total_price_display" id="final_total_price_display" class="form-control"
+                  value="Rp {{ total_price }}" readonly
+                  style="background-color: white; color: black; border: 0; text-align: right; font-size: 17px; flex-grow: 1; font-weight: bold;">
+              </div>
+
+              <!-- Place Order Button -->
+              <div class="form-item mt-2">
+                <button type="submit" class="btn place-order-btn w-100"
+                  style="background-color: #28A745; color: white; border-radius: 0; font-weight: bold; font-size: 12px; padding: 8px; transition: 0.2s;"
+                  onmouseover="this.style.backgroundColor='#218838'" onmouseout="this.style.backgroundColor='#28A745'">
+                  PLACE ORDER
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Final Total Price -->
+            <input type="hidden" name="final_total_price" id="final_total_price" value="{{ total_price }}">
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+<section id="checkout-section">
+
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+<script>
+  let initialTotalPrice = parseFloat(document.getElementById("final_total_price").value); // Store the initial total
+
+  document.getElementById("same_day").addEventListener("change", function () {
+    document.getElementById("delivery_charge").value = "Rp 20,000"; // Set delivery charge to Rp 20,000
+    updateFinalPrice(20000); // Add delivery charge to the total
+  });
+
+  document.getElementById("one_day").addEventListener("change", function () {
+    document.getElementById("delivery_charge").value = "Rp 0"; // Set delivery charge to Rp 0
+    updateFinalPrice(0); // Reset total to the original price (no delivery charge)
+  });
+
+  function updateFinalPrice(deliveryCharge) {
+    // Calculate the final total price
+    var finalTotal = initialTotalPrice + deliveryCharge;
+    document.getElementById("final_total_price_display").value = "Rp " + finalTotal; // Display final total
+    document.getElementById("final_total_price").value = finalTotal; // Set final total in the hidden input
+  }
+
+  // Fetch cities based on province selection
+  document.getElementById('province').addEventListener('change', function () {
+    var provinceId = this.value;
+    fetchCities(provinceId);
+  });
+
+  function fetchCities(provinceId) {
+    var url = "/get_cities_seller/" + provinceId;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        var citySelect = document.getElementById('city');
+        citySelect.innerHTML = "<option value=''>Select City</option>";
+        data.forEach(city => {
+          citySelect.innerHTML += `<option value="${city.city_id}">${city.city_name}</option>`;
+        });
+      });
+  }
+</script>
+
+{% include 'user/seller/layout/footer.html' %}

@@ -1,0 +1,18 @@
+<div class="main-sidebar sidebar-style-2">
+  <aside id="sidebar-wrapper">
+    <div class="sidebar-brand">
+      <a href="#">FRUITABLES</a>
+    </div>
+    <div class="sidebar-brand sidebar-brand-sm">
+      <a href="#">FT</a>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a class="nav-link" href="/seller_home"><i class="fa fa-desktop"></i> <span>Dashboard</span></a></li>
+      <li><a class="nav-link" href="{{ url_for('product')}}"><i class="fa fa-archive"></i> <span>Products</span></a></li>
+      <!-- <li><a class="nav-link" href="{{ url_for('category')}}"><i class="fa fa-cogs"></i> <span>Categories</span></a></li> -->
+      <li><a class="nav-link" href="{{ url_for('sales_report')}}"><i class="fa fa-money-bill"></i><span>Sales</span></a></li>
+      <li><a class="nav-link" href="{{ url_for('buy_products')}}"><i class="fa fa-shopping-cart"></i><span>Buy Products</span></a></li>
+      <li><a class="nav-link" href="{{ url_for('order_seller', id_user=session['id_user'])}}"><i class="fa fa-truck"></i><span>Order Status</span></a></li>
+    </ul>
+  </aside>
+</div>

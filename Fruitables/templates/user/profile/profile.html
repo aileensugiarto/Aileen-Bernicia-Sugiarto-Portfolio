@@ -1,0 +1,125 @@
+{% include 'user/seller/layout/header.html' %}
+{% include 'user/seller/layout/sidebar.html' %}
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Profile</h1>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>&times;</span>
+        </button>
+        {{message}}
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="section-body mt-2 bg-primary" style="box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3); border-radius: 15px;">
+
+
+      {% if data_profile_seller|length == 0 %}
+      <div class="row p-5">
+        <div class="col-md-12 col-lg-6 col-xl-6">
+          <div class="user-info"
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <a href="{{ url_for('add_profile') }}" class="btn btn-success btn-lg mt-3">Add Profile</a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      {% for row in data_profile_seller %}
+      <div class="row p-5">
+        <div class="col-md-12 col-lg-6 col-xl-6">
+          <div class="user-info"
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <!-- Profile Picture -->
+            <td>
+              <img src="{{ url_for('static', filename='uploads/' + (row[8] if row[8] else 'default.png')) }}"
+                style="width: 150px; height: 150px; object-fit: cover; border-radius: 100px;" alt="Product Image">
+            </td>
+            <!-- Name -->
+            <h3 style="margin-top: 20px; color: white;">{{ row[1] }}</h3>
+            <!-- Role -->
+            <span style="color: white; font-size: 20px; text-transform: capitalize;">{{ row[6] }}</span>
+            <!-- Email & Address -->
+            <div style="color: white; font-size: 18px; margin-top: 20px;">
+              <div style="display: flex; margin-bottom: 5px;">
+                <strong style="width: 120px;">Email:</strong>
+                <span
+                  style="font-size: 16px; background-color: #9BC9FD; padding: 0px 15px; width: auto; text-align: center;">{{ row[5] }}</span>
+              </div>
+              <div style="display: flex; margin-bottom: 5px;">
+                <strong style="width: 120px;">Address:</strong>
+                <span
+                  style="font-size: 16px; background-color: #9BC9FD; padding: 0px 15px; width: auto; text-align: center;">{{ row[4] }}</span>
+              </div>
+            </div>
+            <!-- Edit Profile Button -->
+            <a href="/edit_profile_seller/{{row[0]}}" class="btn btn-warning mt-3">Edit Profile</a>
+          </div>
+        </div>
+
+        <div class="col-md-12 col-lg-6 col-xl-6">
+          <div class="row">
+            <!-- Bio -->
+            <div class="col-md-6 col-lg-6 col-xl-6 mb-2">
+              <div class="bio" style="background-color: white; border-radius: 15px; height: 180px; overflow:hidden;">
+                <div class="p-4" style="height: 100%; overflow-y: auto;">
+                  <h5 class="text-dark">Biography</h5>
+                  <p style="color: #34395E;">{{ row[7] }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!--  Products -->
+            <!-- Total Products -->
+            <div class="col-md-6 col-lg-6 col-xl-6">
+              <div class="bio" style="background-color: white; border-radius: 15px; height: 180px;">
+                <div class="p-4">
+                  <h5 class="text-dark">Total Products</h5>
+                  <span style="color: red; font-size: 50px;">
+                    {{ total_products }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-lg-6 col-xl-6 mt-2">
+              <div class="bio" style="background-color: white; border-radius: 15px; height: 180px;">
+                <div class="p-4">
+                  <h5 class="text-dark">Total Sales</h5>
+                  <span style="color: red; font-size: 30px;">
+                    Rp {{ total_sales }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!--  Products -->
+            <div class="col-md-6 col-lg-6 col-xl-6 mt-2">
+              <div class="bio" style="background-color: white; border-radius: 15px; height: 180px;">
+                <div class="p-4">
+                  <h5 class="text-dark">Best-Selling Product</h5>
+                  <span style="color: red; font-size: 20px; font-weight: bold;">
+                    {{ best_selling_product }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% include 'user/seller/layout/footer.html' %}

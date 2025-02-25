@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+  <section id="checkout-section">
+    <div class="container-fluid mb-4">
+      <div class="container">
+        <div class="mb-4 mt-4">
+          <span style="color: black; font-size: 30px;">Billing Details</span>
+        </div>
+        <form action="/process_checkout" method="POST">
+          <div class="row g-5">
+            <div class="col-md-12 col-lg-6 col-xl-6">
+              <div class="row">
+                <input type="hidden" name="form_id_user" value="{{session['id_user']}}">
+                <input type="hidden" name="form_total_price" value="{{total_price}}">
+                <!-- Province -->
+                <div class="form-item">
+                  <select id="province" name="province" class="form-control" required>
+                    <option value="">Select Province</option>
+                    {% for province in provinces %}
+                    <option value="{{province['province_id']}}">{{province['province']}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <!-- Cities -->
+                <div class="form-item mt-3">
+                  <select id="city" name="city" class="form-control" required>
+                    <option value="">Select City</option>
+                  </select>
+                </div>
+
+                <!-- Order Notes -->
+                <div class="form-item mt-3">
+                  <textarea name="form_information" class="form-control order-notes" spellcheck="false" cols="30"
+                    rows="6" placeholder="Order Notes" required></textarea>
+                </div>
+
+                <!-- Address -->
+                <div class="form-item mt-3">
+                  <textarea name="address" class="form-control order-notes" spellcheck="false" cols="10" rows="5"
+                    placeholder="Address" required>{{ user_address }}</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-6">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Products</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in data_cart %}
+                    <input type="hidden" name="form_id_cart[]" value="{{row[0]}}">
+                    <input type="hidden" name="form_id_product[]" value="{{row[2]}}">
+                    <input type="hidden" name="form_price[]" value="{{row[5]}}">
+                    <input type="hidden" name="form_qty[]" value="{{row[1]}}">
+                    <tr>
+                      <td scope="row">
+                        <div class="d-flex align-items-center mt-2">
+                          <img src="{{url_for('static', filename='uploads/' + row[8])}}" class="img-fluid"
+                            style="width: 80px;">
+                        </div>
+                      </td>
+                      <td class="py-5 product-name">{{ row[4] }}</td>
+                      <td class="py-5 product-price">{{ row[5] }}</td>
+                      <td class="py-5 qty">{{ row[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Subtotal -->
+              <div class="form-item mt-2" style="display: flex; align-items: center; gap: 10px;">
+                <label style="color: black; font-size: 14px;">Subtotal</label>
+                <input type="text" class="form-control" value="Rp {{total_price}}" readonly
+                  style="background-color: white; color:black; border: 0; text-align: right; font-size: 14px;">
+              </div>
+
+              <!-- Total Price -->
+              <div class="form-item"
+                style="display: flex; align-items: center; gap: 10px; font-size: 18px; white-space: nowrap;">
+                <label for="final_total_price_display" style="color: black; font-weight: bold; margin-right: auto;">
+                  Total Price
+                </label>
+                <input type="text" name="final_total_price_display" id="final_total_price_display" class="form-control"
+                  value="Rp {{total_price}}" readonly
+                  style="background-color: white; color: black; border: 0; text-align: right; font-size: 20px; flex-grow: 1; font-weight: bold;">
+              </div>
+            </div>
+
+            <!-- Delivery Type -->
+            <div class="form-item mt-4">
+              <div class="mb-3">
+                <label for="delivery_type" style="color: black; font-size: 20px;">Delivery Type</label>
+              </div>
+              <div class="mb-1">
+                <label style="color: #414141; font-size: 15px; font-weight: bold;">
+                  <input type="radio" name="delivery_type" value="same_day" id="same_day" required> &nbsp;
+                  Same-Day Delivery (Rp 20,000)
+                </label>
+              </div>
+
+              <label style="color: #414141; font-size: 15px; font-weight: bold;">
+                <input type="radio" name="delivery_type" value="one_day" id="one_day" checked> &nbsp;
+                One-Day Delivery (Free)
+              </label>
+            </div>
+
+            <!-- Delivery Charge -->
+            <div class="form-item mt-3">
+              <input type="text" id="delivery_charge" class="form-control" value="Rp 0" readonly
+                style="background-color: white; color: black; font-size: 14px; color: #474747;">
+            </div>
+
+            <!-- Final Total Price -->
+            <!-- <input type="hidden" name="final_total_price" id="final_total_price" value="{{total_price}}"> -->
+            <input type="hidden" name="final_total_price" id="final_total_price" value="{{ total_price }}">
+
+            <!-- Place Order Button -->
+            <div class="form-item mt-3">
+              <button type="submit" class="btn place-order-btn">
+                PLACE ORDER
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+  <script>
+    // Store the initial total price
+    let initialTotalPrice = parseFloat(document.getElementById("final_total_price").value);
+
+    // Track if Same-Day delivery charge has already been added
+    let sameDayChargeAdded = false;
+
+    // Update delivery charge based on selected delivery type
+    document.getElementById("same_day").addEventListener("change", function () {
+      if (!sameDayChargeAdded) {
+        // Add the Same-Day delivery charge
+        updateFinalPrice(20000);
+        sameDayChargeAdded = true; // Prevent adding the charge again
+      }
+    });
+
+    document.getElementById("one_day").addEventListener("change", function () {
+      // Remove the Same-Day delivery charge and set One-Day as free
+      sameDayChargeAdded = false;
+      updateFinalPrice(0);
+    });
+
+    // Function to update the final total price
+    function updateFinalPrice(deliveryCharge) {
+      var finalTotal = initialTotalPrice + deliveryCharge;
+      document.getElementById("final_total_price_display").value = "Rp " + finalTotal.toLocaleString();
+      document.getElementById("final_total_price").value = finalTotal;
+      document.getElementById("delivery_charge").value = "Rp " + deliveryCharge.toLocaleString();
+    }
+
+    // Fetch cities when a province is selected
+    document.getElementById("province").addEventListener("change", function () {
+      var province_id = this.value;
+      fetch("/get_cities/" + province_id)
+        .then(response => response.json())
+        .then(data => {
+          var citySelect = document.getElementById("city");
+          citySelect.innerHTML = '<option value="">Select City</option>';
+          data.forEach(function (city) {
+            var option = document.createElement("option");
+            option.value = city.city_id;
+            option.text = city.city_name;
+            citySelect.appendChild(option);
+          });
+        })
+        .catch(error => console.error("Error fetching cities: ", error));
+    });
+  </script>
+
+</body>
+
+</html>

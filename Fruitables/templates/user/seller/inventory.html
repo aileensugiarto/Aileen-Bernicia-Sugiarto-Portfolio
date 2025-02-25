@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    .card {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      height: 250px;
+    }
+
+    .card-title {
+      color: white;
+      text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-body {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 20px;
+      border-radius: 10px;
+
+      /* Flexbox properties for centering */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+
+    .btn {
+      border: none;
+      width: 100%;
+      background-color: #025E59;
+      padding: 5px 20px;
+      border-radius: 3px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #253D4E;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  {% include 'user/navbar.html' %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
+        <div class="card shadow-sm" style="background-image: url('../../../static/uploads/product-management.jpg');">
+          <div class="card-body text-center">
+            <h5 class="card-title">Product Management</h5>
+            <a href="/product" class="btn">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
+        <div class="card shadow-sm" style="background-image: url('../../../static/uploads/stock-management.jpg');">
+          <div class="card-body text-center">
+            <h5 class="card-title">Stock Management</h5>
+            <a href="/product" class="btn">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4 col-xl-4">
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">Category Management</h5>
+            <a href="/product" class="btn">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Status</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-LL2rEblyeJMYdTz4"></script>
+
+  <style>
+    .nav-pills .nav-link {
+      border: 1px solid #505050;
+      border-radius: 0px;
+      font-size: 14px;
+      color: black;
+    }
+
+    .nav-pills .nav-link.active {
+      background-color: #28A745 !important;
+      color: white;
+      border: none;
+    }
+
+    .nav-pills .nav-link:hover {
+      background-color: #218838;
+      color: white;
+      text-decoration: none;
+      border-color: #218838;
+    }
+
+    .order-section {
+      width: 1050px;
+    }
+
+    th {
+      color: black;
+      font-weight: 400;
+      font-size: 15px;
+    }
+
+    .product-name {
+      color: black;
+      font-family: 'Times New Roman', Times, serif;
+      font-style: italic;
+      font-size: 17px;
+    }
+
+    .qty {
+      color: black;
+      font-size: 14px;
+    }
+
+    .transaction-date {
+      color: black;
+      font-size: 14px;
+    }
+
+    .total-price {
+      color: black;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .status {
+      color: red;
+      text-transform: capitalize;
+    }
+
+    .pay-btn {
+      background-color: #28A745;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 8px;
+      transition: 0.2s;
+    }
+
+    .pay-btn:hover {
+      background-color: #218838;
+      color: white;
+    }
+
+    .custom-btn {
+      background-color: #28A745;
+      color: white;
+      padding: 12px 20px;
+      font-size: 12px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .custom-btn:hover {
+      background-color: #218838;
+      color: white;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const tabs = document.querySelectorAll('.nav-link');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+          tabs.forEach(t => t.classList.remove('active'));
+
+          this.classList.add('active');
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container-fluid mt-4 order-section">
+    <div class="container">
+      <div class="mb-3">
+        <span style="color: black; font-size: 30px;">Order Status</span>
+      </div>
+      <div class="row g-5">
+        <div class="col-md-12 col-lg-12 col-xl-12">
+          <div class="row">
+            <ul class="nav nav-pills d-inline-flex text-center">
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 nav-link active" data-bs-toggle="pill" href="#billing-tab" role="tab"
+                  aria-controls="billing" aria-selected="true">
+                  <span class="billing-tab" style="width: 130px;">Billing</span>
+                </a>
+              </li>
+
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 nav-link" data-bs-toggle="pill" href="#packaging-tab" role="tab"
+                  aria-controls="packaging" aria-selected="false">
+                  <span class="billing-tab" style="width: 130px;">Packaging</span>
+                </a>
+              </li>
+
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 nav-link" data-bs-toggle="pill" href="#delivery-tab" role="tab"
+                  aria-controls="packaging" aria-selected="false">
+                  <span class="billing-tab" style="width: 130px;">Delivery</span>
+                </a>
+              </li>
+
+              <li class="nav-item" style="margin-bottom: 15px;">
+                <a class="d-flex m-2 py-2 nav-link" data-bs-toggle="pill" href="#sent-tab" role="tab"
+                  aria-controls="packaging" aria-selected="false">
+                  <span class="billing-tab" style="width: 130px;">Sent</span>
+                </a>
+              </li>
+            </ul>
+
+          </div>
+
+          <div class="tab-content">
+
+            <!-- Billing Tab -->
+            <div id="billing-tab" class="tab-pane fade show p-0 active" role="tab" aria-controls="billing"
+              aria-selected="true">
+              <div class="row g-4">
+                <div class="col-lg-12">
+                  <div class="row g-4">
+                    <!-- <span style="color: black; font-size: 30px;">Billing</span> -->
+                    <div class="table-responsive">
+                      <table class="table" style="table-layout: fixed; width: 100%;">
+                        <thead>
+                          <tr>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Image</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Name</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Quantity</th>
+                            <th scope="col" style="width: 25%; font-size: 14px;">Order Notes</th> <!-- Bigger Column -->
+                            <th scope="col" style="width: 14%; font-size: 14px;">Transaction Date</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Total Price</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Status</th>
+                            <th scope="col" style="width: 15%; font-size: 14px;">Pay</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_billing %}
+                          <tr>
+                            <td class="py-5" style="width: 10%; text-align: center;">
+                              <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                width="100px">
+                            </td>
+                            <td class="py-5 product-name" style="width: 10%;">{{row[6]}}</td>
+                            <td class="py-5 qty" style="width: 10%;">{{row[7]}}</td>
+                            <td class="py-5" style="width: 25%; color: black; font-size: 14px; word-wrap: break-word;">
+                              {{row[0]}}</td> <!-- Bigger -->
+                            <td class="py-5 transaction-date" style="width: 10%;">{{row[1]}}</td>
+                            <td class="py-5 total-price" style="width: 10%;">Rp {{row[2]}}</td>
+                            <td class="py-5 status" style="width: 10%;">{{row[3]}}</td>
+                            <td class="py-5" style="width: 15%;">
+                              <form id="payment-form" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="form_id_transaction" value="{{row[4]}}">
+                                <input type="hidden" name="form_total_price" value="{{row[2]}}">
+                                <button type="button" class="pay-btn btn rounded-0 w-100">PAY NOW</button>
+                              </form>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Packaging Tab -->
+            <div id="packaging-tab" class="tab-pane fade show p-0">
+              <div class="row g-4">
+                <div class="col-lg-12">
+                  <div class="row g-4">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Image</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Name</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Quantity</th>
+                            <th scope="col" style="width: 25%; font-size: 14px;">Order Notes</th> <!-- Bigger Column -->
+                            <th scope="col" style="width: 14%; font-size: 14px;">Transaction Date</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Total Price</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_packaging %}
+                          <tr>
+                            <td class="py-5" style="width: 10%; text-align: center;">
+                              <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                width="100px">
+                            </td>
+                            <td class="py-5 product-name" style="width: 10%;">{{row[6]}}</td>
+                            <td class="py-5 qty" style="width: 10%;">{{row[7]}}</td>
+                            <td class="py-5" style="width: 25%; color: black; font-size: 14px; word-wrap: break-word;">
+                              {{row[0]}}</td> <!-- Bigger -->
+                            <td class="py-5 transaction-date" style="width: 10%;">{{row[1]}}</td>
+                            <td class="py-5 total-price" style="width: 10%;">Rp {{row[2]}}</td>
+                            <td class="py-5 status" style="width: 10%;">{{row[3]}}</td>
+                            <td class="py-5" style="width: 15%;">
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delivery Tab -->
+            <div id="delivery-tab" class="tab-pane fade show p-0">
+              <div class="row g-4">
+                <div class="col-lg-12">
+                  <div class="row g-4">
+                    <!-- <span style="color: black; font-size: 30px;">Delivery</span> -->
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Image</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Name</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Quantity</th>
+                            <th scope="col" style="width: 25%; font-size: 14px;">Order Notes</th> <!-- Bigger Column -->
+                            <th scope="col" style="width: 14%; font-size: 14px;">Transaction Date</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Total Price</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_delivery %}
+                          <tr>
+                            <td class="py-5" style="width: 10%; text-align: center;">
+                              <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                width="100px">
+                            </td>
+                            <td class="py-5 product-name" style="width: 10%;">{{row[6]}}</td>
+                            <td class="py-5 qty" style="width: 10%;">{{row[7]}}</td>
+                            <td class="py-5" style="width: 25%; color: black; font-size: 14px; word-wrap: break-word;">
+                              {{row[0]}}</td> <!-- Bigger -->
+                            <td class="py-5 transaction-date" style="width: 10%;">{{row[1]}}</td>
+                            <td class="py-5 total-price" style="width: 10%;">Rp {{row[2]}}</td>
+                            <td class="py-5 status" style="width: 10%;">{{row[3]}}</td>
+                            <td class="py-5" style="width: 15%;">
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sent Tab -->
+            <div id="sent-tab" class="tab-pane fade show p-0">
+              <div class="row g-4">
+                <div class="col-lg-12">
+                  <div class="row g-4">
+                    <!-- <span style="color: black; font-size: 30px;">Sent</span> -->
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Image</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Name</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Quantity</th>
+                            <th scope="col" style="width: 25%; font-size: 14px;">Order Notes</th> <!-- Bigger Column -->
+                            <th scope="col" style="width: 14%; font-size: 14px;">Transaction Date</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Total Price</th>
+                            <th scope="col" style="width: 10%; font-size: 14px;">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for row in data_transaction_sent %}
+                          <tr>
+                            <td class="py-5" style="width: 10%; text-align: center;">
+                              <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                width="100px">
+                            </td>
+                            <td class="py-5 product-name" style="width: 10%;">{{row[6]}}</td>
+                            <td class="py-5 qty" style="width: 10%;">{{row[7]}}</td>
+                            <td class="py-5" style="width: 25%; color: black; font-size: 14px; word-wrap: break-word;">
+                              {{row[0]}}</td> <!-- Bigger -->
+                            <td class="py-5 transaction-date" style="width: 10%;">{{row[1]}}</td>
+                            <td class="py-5 total-price" style="width: 10%;">Rp {{row[2]}}</td>
+                            <td class="py-5 status" style="width: 10%;">{{row[3]}}</td>
+                            <td class="py-5" style="width: 15%;">
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <a href="/buyer_home" class="custom-btn">
+          GO BACK TO HOME
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+  <!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.pay-btn').forEach(button => {
+        button.addEventListener('click', function () {
+          let form = this.closest('form');
+          let formData = new FormData(form);
+
+          // Fetch the order details to get the total price and other relevant data
+          fetch('/billing', {
+              method: 'POST',
+              body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.error) {
+                console.error('Error:', data.error);
+                alert('Payment failed: ' + data.error);
+                return;
+              }
+
+              // Ensure the correct total price is passed to Midtrans
+              const totalPrice = data.total_price;
+
+              if (totalPrice <= 0) {
+                alert('Invalid total price');
+                return;
+              }
+
+              // Pass the correct total price to the Midtrans payment gateway
+              snap.pay(data.token, {
+                onSuccess: function (result) {
+                  alert("Payment Successful");
+                  console.log(result);
+
+                  // Send the payment info to your server for processing
+                  fetch('/save_payment_info', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        transaction_id: data.transaction_id,
+                        total_price: totalPrice,
+                      })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                      if (data.error) {
+                        console.error('Error:', data.error);
+                      } else {
+                        console.log('Payment info saved successfully');
+                        window.location.reload();
+                      }
+                    })
+                    .catch(error => {
+                      console.error('Error:', error);
+                    })
+                },
+                onPending: function (result) {
+                  alert("Waiting for your payment");
+                  console.log(result);
+                },
+                onError: function (result) {
+                  alert("Payment Failed");
+                  console.log(result);
+                },
+                onClose: function (result) {
+                  alert("You closed the popup without finishing the payment");
+                  console.log(result);
+                }
+              });
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        });
+      });
+    });
+  </script> -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Ensure buttons are available and the event listener is attached
+      const payButtons = document.querySelectorAll('.pay-btn');
+
+      if (payButtons.length === 0) {
+        console.error('No Pay Now buttons found.');
+        return;
+      }
+
+      // Attach click event to each Pay Now button
+      payButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          let form = this.closest('form');
+          let formData = new FormData(form);
+
+          // Fetch the order details to get the total price and other relevant data
+          fetch('/billing', {
+              method: 'POST',
+              body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.error) {
+                console.error('Error:', data.error);
+                alert('Payment failed: ' + data.error);
+                return;
+              }
+
+              // Ensure the correct total price is passed to Midtrans
+              const totalPrice = data.total_price;
+
+              if (totalPrice <= 0) {
+                alert('Invalid total price');
+                return;
+              }
+
+              // Pass the correct total price to the Midtrans payment gateway
+              snap.pay(data.token, {
+                onSuccess: function (result) {
+                  alert("Payment Successful");
+                  console.log(result);
+
+                  // Send the payment info to your server for processing
+                  fetch('/save_payment_info', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        transaction_id: data.transaction_id,
+                        total_price: totalPrice,
+                      })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                      if (data.error) {
+                        console.error('Error:', data.error);
+                      } else {
+                        console.log('Payment info saved successfully');
+                        window.location.reload();
+                      }
+                    })
+                    .catch(error => {
+                      console.error('Error:', error);
+                    });
+                },
+                onPending: function (result) {
+                  alert("Waiting for your payment");
+                  console.log(result);
+                },
+                onError: function (result) {
+                  alert("Payment Failed");
+                  console.log(result);
+                },
+                onClose: function (result) {
+                  alert("You closed the popup without finishing the payment");
+                  console.log(result);
+                }
+              });
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

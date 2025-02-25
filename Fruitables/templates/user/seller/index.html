@@ -1,0 +1,61 @@
+{% include 'user/seller/layout/header.html' %}
+{% include 'user/seller/layout/sidebar.html' %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Seller Dashboard</h1>
+    </div>
+    <div class="row">
+      <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+        <div class="card card-statistic-1">
+          <div class="card-icon bg-primary">
+            <i class="fas fa-archive"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Total Products</h4>
+            </div>
+            <div class="card-body">
+              {{total_product}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+        <div class="card card-statistic-1">
+          <div class="card-icon bg-success">
+            <i class="fas fa-money-bill"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Total Sales</h4>
+            </div>
+            <div class="card-body">
+              Rp {{total_sales}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+        <div class="card card-statistic-1">
+          <div class="card-icon bg-warning">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Best-Selling Product</h4>
+            </div>
+            <div class="card-body" style="font-size: 17px;">
+              {{best_selling_product}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% include 'user/seller/layout/footer.html' %}

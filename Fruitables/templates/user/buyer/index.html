@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-buyer-home pt-4">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kumpulan">
+        <span class="fa fa-bars text-black"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-light" id="kumpulan">
+        <a href="/buyer_home">
+          <img src="../../../static/uploads/logo.png" alt="" width="70px" style="border-radius: 50px;">
+        </a>
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a href="/buyer_home" class="nav-link">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a href="/about_us" class="nav-link">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a href="/shop_all" class="nav-link">SHOP</a>
+          </li>
+          <li class="nav-item">
+            <a href="/reviews" class="nav-link">REVIEWS</a>
+          </li>
+          <li class="nav-item">
+            <a href="/order/{{session['id_user']}}" class="nav-link">ORDER STATUS</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+          <a href="#" class="position-relative me-4 my-auto" data-bs-toggle="collapse" data-bs-target="#search-form">
+            <i class="fa fa-search text-white"></i>
+          </a>
+          <div class="collapse" id="search-form">
+            <form action="{{url_for('search_results')}}" method="GET" class="d-flex">
+              <input type="text" name="query" class="form-control" placeholder="Search for products" required style="border-radius: 0;">
+              <button type="submit" class="btn btn-success" style="border-radius: 0;">Search</button>
+            </form>
+          </div>
+
+          <a href="/cart/{{session['id_user']}}" class="position-relative me-4 my-auto">
+            <i class="fa fa-shopping-bag text-white"></i>
+          </a>
+          <li class="dropdown">
+            <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <div class="d-sm-none d-lg-inline-block" style="font-size: 16.5px">Hi, {{session.name}}</div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a href="/profile" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="/logout" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+
+        <!-- <div class="d-flex m-3 me-0">
+          <a href="/cart/{{session['id_user']}}" class="position-relative me-4 my-auto">
+            <i class="fa fa-shopping-bag text-white"></i>
+          </a>
+          {% if session.login %}
+          <a href="/profile" class="my-auto me-3">
+            <i class="fas fa-users text-white"></i>
+          </a>
+          <a href="/logout" class="my-auto"><span class="fs-4">Logout</span></a>
+          {% else %}
+          <a href="/login" class="my-auto">
+            <i class="fas fa-user text-white"></i>
+          </a>
+          {% endif %}
+        </div> -->
+
+      </div>
+    </div>
+  </nav>
+  <!-- NAVBAR END -->
+
+
+  <!-- CAROUSEL -->
+  <!-- <div id="carouselSlide" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../../static/uploads/banner.jpg" class="w-100">
+        <div class="carousel-caption custom-caption">
+          <div class="mb-3">
+            <span class="line1">FRESH FROM THE FARM, STRAIGHT TO YOUR TABLE</span>
+          </div>
+          <span class="line2">Always Fresh, Always Fruitables!</span>
+          <div class="mt-4 shop-now-btn">
+            <a href="/shop_all">
+              SHOP NOW
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../../static/uploads/banner-2.jpg" class="w-100">
+        <div class="carousel-caption custom-caption">
+          <div class="mb-3">
+            <span class="line1">NOURISHING YOUR BODY WITH EVERY BITE</span>
+          </div>
+          <span class="line2">The Freshest Veggies, Delivered to You</span>
+          <div class="mt-4 shop-now-btn">
+            <a href="/shop_all">
+              SHOP NOW
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../../static/uploads/banner-3.jpg" class="w-100">
+        <div class="carousel-caption custom-caption">
+          <div class="mb-3">
+            <span class="line1">SWEET, JUICY, AND BURSTING WITH FLAVOR</span>
+          </div>
+          <span class="line2">Fresh Fruits, Picked At Their Peak</span>
+          <div class="mt-4 shop-now-btn">
+            <a href="/shop_all">
+              SHOP NOW
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselSlide" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselSlide" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div> -->
+  <!-- CAROUSEL END -->
+
+  <div class="banner">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../../static/uploads/banner.jpg" class="w-100">
+        <div class="carousel-caption custom-caption">
+          <div class="mb-3">
+            <span class="line1">FRESH FROM THE FARM, STRAIGHT TO YOUR TABLE</span>
+          </div>
+          <span class="line2">Always Fresh, Always Fruitables!</span>
+          <div class="mt-4 shop-now-btn">
+            <a href="/shop_all">
+              SHOP NOW
+            </a>
+          </div>
+        </div>
+      </div>  </div>
+
+
+  <!-- DESCRIPTION -->
+  <div class="container mt-5 description">
+    <div class="text-center">
+      <div class="mb-3">
+        <span style="color: black; font-size: 40px;">Fruitables</span>
+      </div>
+      <p>
+        Fruitables is an online marketplace that connects buyers and sellers of fresh fruits and vegetables. We offer a
+        wide selection of high-quality produce, ensuring customers get the freshest items delivered right to their
+        doorstep.
+      </p>
+      <p>
+        Our platform is designed for simplicity, making it easy to browse, purchase, and track orders. Whether you're a
+        buyer looking for fresh produce or a seller offering quality fruits and veggies, Fruitables makes the process
+        seamless and secure.
+      </p>
+    </div>
+  </div>
+  <!-- DESCRIPTION END -->
+
+  <!-- SHOP BY CATEGORY -->
+  <section class="category" style="margin-top: 100px;">
+    <div class="container">
+      <div class="text-center">
+        <span style="color: black; font-size: 40px;">Shop By Category</span>
+        <div
+          style="display: flex; justify-content: center; align-items: center; margin-top: 30px; margin-bottom: 30px;">
+          <div style="height: 0.5px; background-color: black; width: 75px;"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-6 col-xl-6">
+            <a href="/shop_fruits">
+              <img src="../../../static/uploads/cherry.jpg" width="300px"><br>
+              <span class="category-name">Fruits</span>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-6 col-xl-6">
+            <a href="/shop_vegetables">
+              <img src="../../../static/uploads/vegetable-category.jpg" width="300px"><br>
+              <span class="category-name">Vegetables</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- SHOP BY CATEGORY -->
+
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        Copyright &copy; 2025 Fruitables
+      </div>
+      <div class="footer-right">
+        <!-- You can add content here if needed -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+</body>
+
+</html>

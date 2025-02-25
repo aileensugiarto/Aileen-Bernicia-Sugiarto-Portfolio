@@ -1,0 +1,342 @@
+{% include 'user/seller/layout/header.html' %}
+
+{% include 'user/seller/layout/sidebar.html' %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Order Status</h1>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>&times;</span>
+        </button>
+        {{message}}
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="section-body mt-2">
+      <div class="container-fluid mt-4 order-section">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-md-12 col-lg-12 col-xl-12">
+              <div class="row">
+                <ul class="nav nav-pills d-inline-flex text-center">
+                  <li class="nav-item" style="margin-bottom: 15px;">
+                    <a class="d-flex m-2 py-2 nav-link active" data-bs-toggle="pill" href="#billing-tab" role="tab"
+                      aria-controls="billing" aria-selected="true">
+                      <span class="billing-tab" style="width: 130px;">Billing</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item" style="margin-bottom: 15px;">
+                    <a class="d-flex m-2 py-2 nav-link" data-bs-toggle="pill" href="#packaging-tab" role="tab"
+                      aria-controls="packaging" aria-selected="false">
+                      <span class="billing-tab" style="width: 130px;">Packaging</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item" style="margin-bottom: 15px;">
+                    <a class="d-flex m-2 py-2 nav-link" data-bs-toggle="pill" href="#delivery-tab" role="tab"
+                      aria-controls="packaging" aria-selected="false">
+                      <span class="billing-tab" style="width: 130px;">Delivery</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item" style="margin-bottom: 15px;">
+                    <a class="d-flex m-2 py-2 nav-link" data-bs-toggle="pill" href="#sent-tab" role="tab"
+                      aria-controls="packaging" aria-selected="false">
+                      <span class="billing-tab" style="width: 130px;">Sent</span>
+                    </a>
+                  </li>
+                </ul>
+
+              </div>
+
+              <div class="tab-content">
+
+                <!-- Billing Tab -->
+                <div id="billing-tab" class="tab-pane fade show p-0 active" role="tab" aria-controls="billing"
+                  aria-selected="true">
+                  <div class="row g-4">
+                    <div class="col-lg-12">
+                      <div class="row g-4">
+                        <!-- <span style="color: black; font-size: 30px;">Billing</span> -->
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Order Notes</th>
+                                <th scope="col">Transaction Date</th>
+                                <th scope="col">Total Price</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Pay</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for row in data_transaction_billing %}
+                              <tr>
+                                <td class="py=5">
+                                  <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                    width="100px">
+                                </td>
+                                <td class="py-5 product-name">{{row[6]}}</td>
+                                <td class="py-5 qty">{{row[7]}}</td>
+                                <td class="py-5">{{row[0]}}</td>
+                                <td class="py-5 transaction-date">{{row[1]}}</td>
+                                <td class="py-5 total-price">Rp {{row[2]}}</td>
+                                <td class="py-5 status">{{row[3]}}</td>
+                                <td class="py-5">
+                                  <form id="payment-form" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_id_transaction" value="{{row[4]}}">
+                                    <input type="hidden" name="form_total_price" value="{{row[2]}}">
+                                    <button type="button" class="pay-btn btn rounded-2 w-100 bg-primary text-white">PAY NOW</button>
+                                  </form>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Packaging Tab -->
+                <div id="packaging-tab" class="tab-pane fade show p-0">
+                  <div class="row g-4">
+                    <div class="col-lg-12">
+                      <div class="row g-4">
+                        <!-- <span style="color: black; font-size: 30px;">Packaging</span> -->
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Order Notes</th>
+                                <th scope="col">Transaction Date</th>
+                                <th scope="col">Total Price</th>
+                                <th scope="col">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for row in data_transaction_packaging %}
+                              <tr>
+                                <td class="py=5">
+                                  <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                    width="100px">
+                                </td>
+                                <td class="py-5 product-name">{{row[6]}}</td>
+                                <td class="py-5 qty">{{row[7]}}</td>
+                                <td class="py-5">{{row[0]}}</td>
+                                <td class="py-5 transaction-date">{{row[1]}}</td>
+                                <td class="py-5 total-price">Rp {{row[2]}}</td>
+                                <td class="py-5 status">{{row[3]}}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Delivery Tab -->
+                <div id="delivery-tab" class="tab-pane fade show p-0">
+                  <div class="row g-4">
+                    <div class="col-lg-12">
+                      <div class="row g-4">
+                        <!-- <span style="color: black; font-size: 30px;">Delivery</span> -->
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Order Notes</th>
+                                <th scope="col">Transaction Date</th>
+                                <th scope="col">Total Price</th>
+                                <th scope="col">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for row in data_transaction_delivery %}
+                              <tr>
+                                <td class="py=5">
+                                  <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                    width="100px">
+                                </td>
+                                <td class="py-5 product-name">{{row[6]}}</td>
+                                <td class="py-5 qty">{{row[7]}}</td>
+                                <td class="py-5">{{row[0]}}</td>
+                                <td class="py-5 transaction-date">{{row[1]}}</td>
+                                <td class="py-5 total-price">Rp {{row[2]}}</td>
+                                <td class="py-5 status">{{row[3]}}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sent Tab -->
+                <div id="sent-tab" class="tab-pane fade show p-0">
+                  <div class="row g-4">
+                    <div class="col-lg-12">
+                      <div class="row g-4">
+                        <!-- <span style="color: black; font-size: 30px;">Sent</span> -->
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Order Notes</th>
+                                <th scope="col">Transaction Date</th>
+                                <th scope="col">Total Price</th>
+                                <th scope="col">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for row in data_transaction_sent %}
+                              <tr>
+                                <td class="py=5">
+                                  <img src="{{url_for('static', filename='uploads/' + row[5])}}" class="img-fluid"
+                                    width="100px">
+                                </td>
+                                <td class="py-5 product-name">{{row[6]}}</td>
+                                <td class="py-5 qty">{{row[7]}}</td>
+                                <td class="py-5">{{row[0]}}</td>
+                                <td class="py-5 transaction-date">{{row[1]}}</td>
+                                <td class="py-5 total-price">Rp {{row[2]}}</td>
+                                <td class="py-5 status">{{row[3]}}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-LL2rEblyeJMYdTz4"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.pay-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        let form = this.closest('form');
+        let formData = new FormData(form);
+
+        // Fetch the order details to get the total price and other relevant data
+        fetch('/billing', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.error) {
+              console.error('Error:', data.error);
+              alert('Payment failed: ' + data.error);
+              return;
+            }
+
+            // Ensure the correct total price is passed to Midtrans
+            const totalPrice = data.total_price;
+
+            if (totalPrice <= 0) {
+              alert('Invalid total price');
+              return;
+            }
+
+            // Pass the correct total price to the Midtrans payment gateway
+            snap.pay(data.token, {
+              onSuccess: function (result) {
+                alert("Payment Successful");
+                console.log(result);
+
+                // Send the payment info to your server for processing
+                fetch('/save_payment_info', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      transaction_id: data.transaction_id,
+                      total_price: totalPrice,
+                    })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data.error) {
+                      console.error('Error:', data.error);
+                    } else {
+                      console.log('Payment info saved successfully');
+                      window.location.reload();
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                  })
+              },
+              onPending: function (result) {
+                alert("Waiting for your payment");
+                console.log(result);
+              },
+              onError: function (result) {
+                alert("Payment Failed");
+                console.log(result);
+              },
+              onClose: function (result) {
+                alert("You closed the popup without finishing the payment");
+                console.log(result);
+              }
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      });
+    });
+  });
+</script>
+
+{% include 'user/seller/layout/footer.html' %}

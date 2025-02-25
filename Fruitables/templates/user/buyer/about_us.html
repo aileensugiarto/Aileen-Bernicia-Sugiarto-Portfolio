@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar-shop navbar-expand-lg mt-5">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kumpulan">
+        <span class="fa fa-bars text-black"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-light" id="kumpulan">
+        <a href="/buyer_home">
+          <img src="../../../static/uploads/logo.png" alt="" width="100px" style="border-radius: 50px;">
+        </a>
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a href="/buyer_home" class="nav-link">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a href="/about_us" class="nav-link">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a href="/shop_all" class="nav-link">SHOP</a>
+          </li>
+          <li class="nav-item">
+            <a href="/reviews" class="nav-link">REVIEWS</a>
+          </li>
+          <li class="nav-item">
+            <a href="/order/{{session['id_user']}}" class="nav-link">ORDER STATUS</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+          <a href="#" class="position-relative me-4 my-auto" data-bs-toggle="collapse" data-bs-target="#search-form">
+            <i class="fa fa-search" style="color: #28A745;"></i>
+          </a>
+          <div class="collapse" id="search-form">
+            <form action="{{url_for('search_results')}}" method="GET" class="d-flex">
+              <input type="text" name="query" class="form-control" placeholder="Search for products" required style="border-radius: 0;">
+              <button type="submit" class="btn btn-success" style="border-radius: 0;">Search</button>
+            </form>
+          </div>
+
+          <a href="/cart/{{session['id_user']}}" class="position-relative me-4 my-auto">
+            <i class="fa fa-shopping-bag" style="color: #28A745;"></i>
+          </a>
+          <li class="dropdown">
+            <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <div class="d-sm-none d-lg-inline-block" style="font-size: 16.5px; color: black;">Hi, {{session.name}}
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a href="/profile" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="/logout" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  <!-- NAVBAR END -->
+
+
+  <section class="mt-5 about-us-section">
+    <div class="container">
+      <div class="text-center">
+        <span style="color: black; font-size: 40px;">About Us</span>
+      </div>
+      <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px; margin-bottom: 70px;">
+        <div style="height: 0.5px; background-color: black; width: 75px;"></div>
+      </div>
+
+      <div class="mb-5 text-center">
+        <img src="../../../static/uploads/about-us.webp" width="450px">
+      </div>
+
+      <p>
+        Fruitables is an innovative e-commerce platform dedicated to connecting buyers and sellers in the fresh fruits
+        and vegetables market. Our platform aims to make grocery shopping easier by offering a seamless online
+        experience where users can browse a wide variety of fresh produce from trusted sellers. We prioritize freshness
+        and convenience, offering same-day delivery to ensure that customers receive their fruits and vegetables at the
+        peak of freshness, preventing stale produce from reaching their doorsteps.
+        <br><br>
+        What sets Fruitables apart from other platforms is our focus on inventory control and quality assurance. Sellers
+        are required to list only fresh, quality products, and the platform integrates real-time updates to ensure
+        buyers can trust what they are purchasing. By providing transparent, reliable, and quick service, Fruitables is
+        revolutionizing the way fresh produce is bought and sold, making it easier for customers to enjoy healthy, fresh
+        food every day.
+      </p>
+    </div>
+  </section>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        Copyright &copy; 2025 Fruitables
+      </div>
+      <div class="footer-right">
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+</body>
+
+</html>

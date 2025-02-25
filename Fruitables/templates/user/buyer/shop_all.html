@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar-shop navbar-expand-lg mt-5">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kumpulan">
+        <span class="fa fa-bars text-black"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-light" id="kumpulan">
+        <a href="/buyer_home">
+          <img src="../../../static/uploads/logo.png" alt="" width="100px" style="border-radius: 50px;">
+        </a>
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a href="/buyer_home" class="nav-link">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a href="/about_us" class="nav-link">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a href="/shop_all" class="nav-link">SHOP</a>
+          </li>
+          <li class="nav-item">
+            <a href="/reviews" class="nav-link">REVIEWS</a>
+          </li>
+          <li class="nav-item">
+            <a href="/order/{{session['id_user']}}" class="nav-link">ORDER STATUS</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+          <a href="#" class="position-relative me-4 my-auto" data-bs-toggle="collapse" data-bs-target="#search-form">
+            <i class="fa fa-search" style="color: #28A745;"></i>
+          </a>
+          <!-- Search Form -->
+          <div class="collapse" id="search-form">
+            <form action="{{url_for('search_results')}}" method="GET" class="d-flex">
+              <input type="text" name="query" class="form-control" placeholder="Search for products" required
+                style="border-radius: 0;">
+              <button type="submit" class="btn btn-success" style="border-radius: 0;">Search</button>
+            </form>
+          </div>
+          <a href="/cart/{{session['id_user']}}" class="position-relative me-4 my-auto">
+            <i class="fa fa-shopping-bag" style="color: #28A745;"></i>
+          </a>
+          <li class="dropdown">
+            <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <div class="d-sm-none d-lg-inline-block" style="font-size: 16.5px; color: black;">Hi, {{session.name}}
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a href="/profile" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="/logout" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVBAR END -->
+
+
+  <!-- PRODUCTS -->
+  <section class="mt-5 all">
+    <div class="container">
+      <div class="text-center">
+        <span style="color: black; font-size: 40px;">Products</span>
+        <div
+          style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-bottom: 70px;">
+          <div style="height: 0.5px; background-color: black; width: 75px;"></div>
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="sidebar-item" style="margin-top: 5px;">
+          <ul class="nav nav-pills d-inline-flex text-center mb-5">
+            <li class="nav-item">
+              <a class="d-flex" href="{{ url_for('shop_all') }}">
+                <span>All</span>
+              </a>
+            </li>
+            {% for data_category in category %}
+            <li class="nav-item">
+              <a class="d-flex" href="{{ url_for('shop_all', category=data_category[1]) }}">
+                <span>{{data_category[1]}}</span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- CATEGORY END -->
+
+        <div class="row">
+          <div class="col-2">
+            <span style="color: #34395E; font-weight: bold; font-size: 16px;">SORT BY PRICE:</span><br>
+            <input class="form-check-input" type="radio" name="priceSort" id="low-to-high">&nbsp;
+            <label class="form-check-label" for="low-to-high"
+              style="color: black; text-transform: uppercase; font-weight: bold; font-size: 14px;">
+              Low to High
+            </label>
+            <br>
+            <input class="form-check-input" type="radio" name="priceSort" id="high-to-low">&nbsp;
+            <label class="form-check-label" for="high-to-low"
+              style="color: black; text-transform: uppercase; font-weight: bold; font-size: 14px;">
+              High to Low
+            </label>
+          </div>
+
+        <!-- PRODUCTS -->
+          <div class="col-10">
+            <div class="tab-content">
+              <!-- All Products Tab -->
+              <div id="tab-all" class="tab-pane fade show active p-0">
+                <div class="row g-4">
+                  <div class="col-lg-12">
+                    <div class="row g-4">
+                      {% for data_product in product %}
+                      {% if request.args.get('category') == None or data_product[9] == request.args.get('category') %}
+                      <div class="col-md-6 col-lg-4 col-xl-4 item" data-category="{{data_product[1]}}">
+                        <div class="product-card position-relative">
+                          <a href="/product_detail/{{data_product[0]}}">
+                            <!-- Image -->
+                            <div class="product-img-div text-center">
+                              <img src="{{url_for('static', filename='uploads/' + data_product[6])}}"
+                                class="product-img">
+                            </div>
+                          </a>
+
+                          <!-- Category -->
+                          <div class="product-category text-center">
+                            <span>{{data_product[9]}}</span>
+                          </div>
+
+                          <!-- Product Name and Price -->
+                          <div class="product-info text-center">
+                            <span class="product-name">{{data_product[2]}} - </span>
+                            <span class="product-price">{{data_product[3]}}</span>
+                          </div>
+
+                          <!-- Add to Cart Button -->
+                          <div class="d-flex justify-content-center mt-3">
+                            <form action="/add_cart" method="POST">
+                              <input type="hidden" name="form_id_user" value="{{session['id_user']}}">
+                              <input type="hidden" name="form_id_product" value="{{data_product[0]}}">
+                              <input type="hidden" name="form_price" value="{{data_product[3]}}">
+                              <input type="submit" value="ADD TO CART" class="btn add-to-cart-btn">
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- PRODUCTS END -->
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        Copyright &copy; 2025 Fruitables
+      </div>
+      <div class="footer-right">
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const lowToHigh = document.getElementById("low-to-high");
+      const highToLow = document.getElementById("high-to-low");
+      const productContainer = document.querySelector(".row.g-4"); // Parent container of products
+
+      function sortProducts(order) {
+        let products = Array.from(document.querySelectorAll(".item"));
+
+        products.sort((a, b) => {
+          let priceA = parseFloat(a.querySelector(".product-price").textContent.replace(/[^\d.]/g, ''));
+          let priceB = parseFloat(b.querySelector(".product-price").textContent.replace(/[^\d.]/g, ''));
+
+          return order === "asc" ? priceA - priceB : priceB - priceA;
+        });
+
+        productContainer.innerHTML = ""; // Clear container
+        products.forEach(product => productContainer.appendChild(product)); // Re-add sorted products
+      }
+
+      lowToHigh.addEventListener("change", () => sortProducts("asc"));
+      highToLow.addEventListener("change", () => sortProducts("desc"));
+    });
+  </script>
+</body>
+
+</html>

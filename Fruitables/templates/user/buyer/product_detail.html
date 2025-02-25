@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+  <div class="container product-detail-section" style="margin-top: 100px; margin-bottom: 100px;">
+    <div class="row">
+      <div class="col-md-6 col-lg-6 col-xl-6"
+        style="display: flex; justify-content: right; align-items: center; margin: 0 auto;">
+        <img src="{{url_for('static', filename='uploads/' + product_detail[1])}}" width="450px"
+          style="border-radius: 200px;">
+      </div>
+      <div class="col-md-6 col-lg-6 col-xl-6">
+        <!-- Name -->
+        <div class="mb-2 text-center">
+          <span class="product-name">{{ product_detail[2] }}</span>
+        </div>
+
+        <div class="mb-2 text-center">
+          <span style="font-size: 14px;">{{ product_detail[5] }}</span>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-2 text-center">
+          <span class="product-price">Rp {{ product_detail[3] }}</span>
+        </div>
+
+        <!-- Hr -->
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 30px; margin-bottom: 30px;">
+          <div style="height: 0.5px; background-color: black; width: 75px;"></div>
+        </div>
+
+        <!-- Description -->
+        <div class="text-left">
+          <div style="margin-bottom: 10px;">
+            <span style="color: black; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Product Description</span>
+          </div>
+          <p style="text-align: justify; font-family: 'Times New Roman', Times, serif; color: #333; font-size: 14px;">{{ product_detail[4] }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

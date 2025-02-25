@@ -1,0 +1,155 @@
+{% include 'user/seller/layout/header.html' %}
+
+{% include 'user/seller/layout/sidebar.html' %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-header d-flex justify-content-between align-items-center">
+      <h1>Buy Products</h1>
+      <a href="/cart_seller/{{session['id_user']}}" class="position-relative me-4 my-auto">
+        <span style="font-size: 25px;">🛍️</span>
+      </a>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>&times;</span>
+        </button>
+        {{message}}
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="section-body mt-2" style="width: 900px; justify-content: center; align-items: center; margin: 0 auto;">
+      <!-- Category Navigation -->
+      <ul class="nav nav-pills d-inline-flex text-center mb-3"
+        style="display: flex; justify-content: space-around; width: 100%;">
+        <li class="nav-item">
+          <a class="d-flex" href="{{ url_for('buy_products') }}">
+            <span style="color: black; text-transform: uppercase; font-weight: bold;">
+              All
+            </span>
+          </a>
+        </li>
+        {% for data_category in category %}
+        <li class="nav-item">
+          <a class="d-flex" href="{{ url_for('buy_products', category=data_category[1]) }}">
+            <span style="color: black; text-transform: uppercase; font-weight: bold;">
+              {{data_category[1]}}
+            </span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <br>
+      <!-- Sort by Price -->
+      <div class="d-flex align-items-center justify-content-center mb-3">
+        <span style="color: #34395E; font-weight: bold; margin-right: 10px;">SORT BY PRICE:</span>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="priceSort" id="low-to-high">
+          <label class="form-check-label" for="low-to-high"
+            style="color: black; font-weight: bold; font-size: 13px;">
+            LOW TO HIGH
+          </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="priceSort" id="high-to-low">
+          <label class="form-check-label" for="high-to-low"
+            style="color: black; font-weight: bold; font-size: 13px;">
+            HIGH TO LOW
+          </label>
+        </div>
+      </div>
+
+
+      <!-- Products List -->
+      <div class="row g-4">
+        {% for data_product in product %}
+        {% if request.args.get('category') == None or data_product[9] == request.args.get('category') %}
+        {% if data_product[7] != session['id_user'] %}
+        <!-- Adjusted this index -->
+        <!-- Exclude the logged-in seller's own products -->
+        <div class="col-md-6 col-lg-4 col-xl-4 item" style="margin-bottom: 35px;" data-category="{{data_product[1]}}">
+          <div class="product-card position-relative">
+            <a href="/product_detail/{{data_product[0]}}">
+              <div class="product-img-div text-center">
+                <img src="{{url_for('static', filename='uploads/' + data_product[6])}}" class="product-img"
+                  width="100%">
+              </div>
+            </a>
+
+            <!-- Category -->
+            <div class="product-category text-center">
+              <span>{{data_product[9]}}</span>
+            </div>
+
+            <!-- Product Name and Price -->
+            <div class="product-info text-center" style="color: black;">
+              <span class="product-name"
+                style="font-family: 'Times New Roman', Times, serif; font-size: 18px; font-style: italic;">
+                {{data_product[2]}} -
+              </span>
+              <span class="product-price" style="font-weight: bold;">{{data_product[3]}}</span>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <div class="d-flex justify-content-center mt-3">
+              <form action="/add_cart_seller" method="POST">
+                <input type="hidden" name="form_id_user" value="{{session['id_user']}}">
+                <input type="hidden" name="form_id_product" value="{{data_product[0]}}">
+                <input type="hidden" name="form_price" value="{{data_product[3]}}">
+                <input type="submit" value="ADD TO CART" class="btn add-to-cart-btn"
+                  style="background: #28A745; color: white; border-radius: 0; padding: 5px 20px"
+                  onmouseover="this.style.background='#218838';" onmouseout="this.style.background='#28A745';">
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- Script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const lowToHigh = document.getElementById("low-to-high");
+    const highToLow = document.getElementById("high-to-low");
+    const productContainer = document.querySelector(".row.g-4"); // Parent container of products
+
+    function sortProducts(order) {
+      let products = Array.from(document.querySelectorAll(".item"));
+
+      products.sort((a, b) => {
+        let priceA = parseFloat(a.querySelector(".product-price").textContent.replace(/[^\d.]/g, ''));
+        let priceB = parseFloat(b.querySelector(".product-price").textContent.replace(/[^\d.]/g, ''));
+
+        return order === "asc" ? priceA - priceB : priceB - priceA;
+      });
+
+      productContainer.innerHTML = ""; // Clear container
+      products.forEach(product => productContainer.appendChild(product)); // Re-add sorted products
+    }
+
+    lowToHigh.addEventListener("change", () => sortProducts("asc"));
+    highToLow.addEventListener("change", () => sortProducts("desc"));
+  });
+</script>
+
+{% include 'user/seller/layout/footer.html' %}

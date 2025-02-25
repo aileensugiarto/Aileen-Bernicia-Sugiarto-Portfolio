@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body>
+  <section id="cart-section" class="mt-5">
+    <div class="container">
+      <span style="color: black; font-size: 30px;">Your Cart</span>
+      <hr>
+      <div class="row">
+        <!-- Product Details Section -->
+        <div class="col-lg-8">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <!-- <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Details</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Remove</th>
+                </tr>
+              </thead> -->
+              <tbody>
+                {% for row in data_cart %}
+                <tr>
+                  <!-- Product Image -->
+                  <td>
+                    <img src="{{ url_for('static', filename='uploads/' + row[8]) }}" class="img-fluid rounded"
+                      style="width: 120px; height: auto;" alt="Product Image">
+                  </td>
+
+                  <!-- Product Details -->
+                  <td>
+                    <span class="product-name">{{ row[4] }}</span>
+                    <p class="product-price">Rp {{ row[5] }}</p>
+                  </td>
+
+                  <!-- Quantity Selector -->
+                  <td>
+                    <form method="POST" action="/update_cart" class="quantity-form d-flex align-items-center">
+                      <input type="hidden" name="form_id_cart" value="{{ row[0] }}">
+                      <input type="hidden" name="form_id_product" value="{{ row[2] }}">
+                      <input type="hidden" name="form_price" value="{{ row[5] }}">
+                      <input type="hidden" name="form_qty" value="{{ row[1] }}">
+                      <input type="hidden" name="form_id_user" value="{{ session['id_user'] }}">
+
+                      <button type="submit" name="minus" class="btn btn-sm quantity-btn">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                      <input type="text" class="form-control text-center quantity-input" value="{{ row[1] }}"
+                        disabled>
+                      <button type="submit" name="plus" class="btn btn-sm quantity-btn">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </form>
+                  </td>
+                  <!-- Remove Button -->
+                  <td>
+                    <a href="/delete_cart/{{ row[0] }}" class="btn btn-outline-danger btn-sm" style="border-radius: 2px;">
+                      <i class="fa fa-times"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="col-lg-4">
+          <div class="order-summary p-4" style="background-color: #F9F9F9;">
+            <span class="summary-title mb-4" style="color: black; font-size: 25px;">Order Summary</span>
+            <!-- Cost Summary -->
+            <div class="summary-details mb-4">
+              <hr>
+              <div class="d-flex justify-content-between font-weight-bold">
+                <span>Total</span>
+                <span>Rp {{ total_price }}</span>
+              </div>
+            </div>
+
+            <!-- Checkout Button -->
+            <a href="/checkout/{{ session.id_user }}" class="btn w-100 checkout-btn">
+              CHECKOUT&nbsp;&nbsp; <i class="fa fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a href="/shop_all" class="continue-shopping">CONTINUE SHOPPING</a>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>

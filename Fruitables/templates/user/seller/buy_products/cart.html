@@ -1,0 +1,91 @@
+{% include 'user/seller/layout/header.html' %}
+
+{% include 'user/seller/layout/sidebar.html' %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Your Cart</h1>
+    </div>
+    <div class="container">
+      <!-- <span style="color: black; font-size: 30px;">Your Cart</span> -->
+      <!-- <hr> -->
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <tbody>
+                {% for row in data_cart %}
+                <tr>
+                  <td>
+                    <img src="{{ url_for('static', filename='uploads/' + row[8]) }}" class="img-fluid rounded"
+                      style="width: 120px; height: auto;" alt="Product Image">
+                  </td>
+                  <td>
+                    <span class="product-name"
+                      style="font-style: italic; font-family: 'Times New Roman', Times, serif; color: black; font-size: 18px;">{{ row[4] }}</span>
+                    <p class="product-price" style="color: black;">Rp {{ row[5] }}</p>
+                  </td>
+                  <td>
+                    <form method="POST" action="/update_cart_seller" class="quantity-form d-flex align-items-center">
+                      <input type="hidden" name="form_id_cart" value="{{ row[0] }}">
+                      <input type="hidden" name="form_id_product" value="{{ row[2] }}">
+                      <input type="hidden" name="form_price" value="{{ row[5] }}">
+                      <input type="hidden" name="form_qty" value="{{ row[1] }}">
+                      <input type="hidden" name="form_id_user" value="{{ session['id_user'] }}">
+
+                      <button type="submit" name="minus" class="btn btn-sm quantity-btn" style="border-radius: 0;">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                      <input type="text" class="form-control text-center quantity-input" value="{{ row[1] }}" disabled
+                        style="background-color: white; border-radius: 0; border-color: #696969; color: black; width: 100px; height: 30px;">
+                      <button type="submit" name="plus" class="btn btn-sm quantity-btn" style="border-radius: 0;">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </form>
+                  </td>
+                  <td>
+                    <a href="/delete_cart_seller/{{ row[0] }}" class="btn btn-outline-danger btn-sm"
+                      style="border-radius: 2px;">
+                      <i class="fa fa-times"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="order-summary p-4" style="background-color: #F9F9F9;">
+            <span class="summary-title mb-4" style="color: black; font-size: 25px;">Order Summary</span>
+            <div class="summary-details mb-4">
+              <hr>
+              <div class="d-flex justify-content-between font-weight-bold">
+                <span style="color: black; font-size: 17px;">Total</span>
+                <span style="color: black; font-size: 17px;">Rp {{ total_price }}</span>
+              </div>
+            </div>
+            <a href="/checkout_seller/{{ session.id_user }}" class="btn w-100 checkout-btn"
+            style="background-color: #28A745; color: white; border-radius: 0; font-weight: bold; font-size: 12px; padding: 8px; transition: 0.2s;"
+            onmouseover="this.style.backgroundColor='#218838'" onmouseout="this.style.backgroundColor='#28A745'">
+              CHECKOUT&nbsp;&nbsp;
+              <i class="fa fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a href="/buy_products" class="continue-shopping" style="color: white; background: #28A745; padding: 15px; font-size: 12px; font-weight: bold;">
+          CONTINUE SHOPPING
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+<section id="cart-section" class="mt-5">
+
+</section>
+
+{% include 'user/seller/layout/footer.html' %}

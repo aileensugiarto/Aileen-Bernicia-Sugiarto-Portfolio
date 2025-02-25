@@ -1,0 +1,32 @@
+{% include 'user/seller/layout/header.html' %}
+
+{% include 'user/seller/layout/sidebar.html' %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Edit Category</h1>
+    </div>
+
+    <div class="section-body">
+      <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+          <form method="POST" action="/process_edit_category">
+            <div class="card-body">
+              <div class="form-group">
+                <input type="hidden" name="form_id" class="form-control" value="{{data_category[0]}}">
+                <label>Product Name</label>
+                <input type="text" name="form_name" class="form-control" required value="{{data_category[1]}}">
+              </div>
+              <div class="card-footer text-left">
+                <input type="submit" value="Submit" class="btn btn-primary">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% include 'user/seller/layout/footer.html' %}

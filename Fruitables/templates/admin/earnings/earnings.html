@@ -1,0 +1,70 @@
+{% include 'layout/header.html' %}
+{% include 'layout/sidebar.html' %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Admin Earnings</h1>
+    </div>
+
+    <div class="section-body mt-2">
+      <!-- Admin Earnings Card -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h6>Admin Earnings</h6>
+              <p style="font-size: 25px; font-weight: bold; color: #34395E;">Rp {{ admin_earnings }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings Breakdown Table -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>Breakdown of Earnings by Seller</h4>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-striped table-md">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Seller Name</th>
+                      <th>Total Sales (Before 10%)</th>
+                      <th>Seller Earnings (After 10%)</th>
+                      <th>Admin Commission (10%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if earnings_breakdown %}
+                    {% for seller in earnings_breakdown %}
+                    <tr>
+                      <td>{{ seller.no }}</td>
+                      <td>{{ seller.seller_name }}</td>
+                      <td>Rp {{ seller.total_sales }}</td>
+                      <td>Rp {{ seller.seller_earnings_after_commission }}</td>
+                      <td>Rp {{ seller.admin_commission }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                      <td colspan="5" class="text-center">No earnings data available</td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+{% include 'layout/footer.html' %}

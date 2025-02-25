@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results for "{{ query }}"</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+  
+    <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+<body>
+
+  <!-- NAVBAR (You can reuse the existing navbar here) -->
+
+  <section class="mt-5 all">
+    <div class="container">
+      <div class="text-center">
+        <span style="color: black; font-size: 40px;">Search Results for: "{{ query }}"</span>
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-bottom: 70px;">
+          <div style="height: 0.5px; background-color: black; width: 75px;"></div>
+        </div>
+
+        <!-- PRODUCTS -->
+        <div class="row g-4">
+          {% for product in products %}
+          <div class="col-md-6 col-lg-4 col-xl-4 item" data-category="{{ product[9] }}">
+            <div class="product-card position-relative">
+              <a href="/product_detail/{{ product[0] }}">
+                <!-- Image -->
+                <div class="product-img-div text-center">
+                  <img src="{{ url_for('static', filename='uploads/' + product[6]) }}" class="product-img">
+                </div>
+              </a>
+
+              <!-- Category -->
+              <div class="product-category text-center">
+                <span>{{ product[9] }}</span>
+              </div>
+
+              <!-- Product Name and Price -->
+              <div class="product-info text-center">
+                <span class="product-name">{{ product[2] }} - </span>
+                <span class="product-price">{{ product[3] }}</span>
+              </div>
+
+              <!-- Add to Cart Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <form action="/add_cart" method="POST">
+                  <input type="hidden" name="form_id_user" value="{{ session['id_user'] }}">
+                  <input type="hidden" name="form_id_product" value="{{ product[0] }}">
+                  <input type="hidden" name="form_price" value="{{ product[3] }}">
+                  <input type="submit" value="ADD TO CART" class="btn add-to-cart-btn">
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!-- PRODUCTS END -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (You can reuse the existing footer here) -->
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+</body>
+</html>

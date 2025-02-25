@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/asset/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='frontend/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='frontend/style.css') }}">
+</head>
+
+<body style="background-color: #F1F1F1; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;">
+  <div class="card edit-profile border-0" style="box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.1); padding-top: 20px; padding-bottom: 20px; margin-top: 100px; margin-bottom: 100px;">
+    <form method="POST" action="/process_edit_profile" enctype="multipart/form-data">
+      <div class="card-body">
+        <input type="hidden" name="form_id_user" value="{{ data_profile[0] }}">
+
+        <div class="mb-3">
+          <span style="color: black; font-size: 25px;">Edit Profile</span>
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="color: #34395E; font-size: 14px;">Name</label>
+          <input type="text" name="form_name" class="form-control" required value="{{data_profile[1]}}"
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF; font-size: 14px; width: 100%;">
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="color: #34395E; font-size: 14px;">Username</label>
+          <input type="text" name="form_username" class="form-control" required value="{{data_profile[2]}}"
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF; font-size: 14px;">
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="color: #34395E; font-size: 14px;">Telp</label>
+          <input type="text" name="form_telp" class="form-control" required value="{{data_profile[3]}}"
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF; font-size: 14px;">
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="color: #34395E; font-size: 14px;">Address</label>
+          <input type="text" name="form_address" class="form-control" required value="{{data_profile[4]}}"
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF; font-size: 14px;">
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="color: #34395E; font-size: 14px;">Email</label>
+          <input type="text" name="form_email" class="form-control" required value="{{data_profile[5]}}"
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF; font-size: 14px;">
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="color: #34395E; font-size: 14px;">Biography</label>
+          <input type="text" name="form_bio" class="form-control" required value="{{data_profile[8]}}"
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF; font-size: 14px;">
+        </div>
+
+        <div class="form-group mb-4">
+          <label style="color: #34395E; font-size: 14px;">Upload Image</label>
+          <input type="file" name="form_profile_picture" class="form-control"
+            style="border-radius: 3px; border-color: #E4E6FC; background-color: #FDFDFF; font-size: 14px;">
+        </div>
+
+        <input type="submit" value="SUBMIT" class="submit-btn"></input>
+
+      </div>
+    </form>
+
+  </div>
+
+  <!-- Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='frontend/asset/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+</body>
+
+</html>
